@@ -77,12 +77,6 @@ def thermolab1():
 	i = [158, 145, 150]
 	ci = math.fsum(i)
 	i = mean(i)
-	ron = 201
-	roc = 1000
-	cpqout = 4.1855
-	# maybe 2.01
-	hu = 46354
-	to = 273.15
 	print 'dt '+str(dt)
 	print 'p1 '+str(p1)
 	print 'pamb '+str(pamb)
@@ -115,6 +109,12 @@ def thermolab1():
 	print 'cvc '+str(cvc)
 	print 'cu '+str(cu)
 	print 'ci '+str(ci)
+	ron = 201
+	roc = 1000
+	cpqout = 4.1855
+	# maybe 2.01
+	hu = 46354
+	to = 273.15
 	wt = u*i
 	dhqout = cpqout*(t8-t7)
 	# p0 listed but we do not have a value for p0 so assume p1
@@ -124,7 +124,7 @@ def thermolab1():
 	pgas = mdotgass*hu
 	mdotst = roc*vc/dt
 	qout = mdotst*dhqout
-
+	
 	# pst = mdotst * (h3pp-h3p)
 	# nb = pst/pgas
 	# pcw = vdotcw*rocw*cp*(t8-t7)
