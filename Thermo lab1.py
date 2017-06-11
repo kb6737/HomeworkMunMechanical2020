@@ -72,13 +72,13 @@ def thermolab1():
 	vdotgas = mean(vdotgas)
 	vc = [72.25, 75, 135]
 	cvc = math.fsum(vc)
-	vc = mean(vc)/100000000
+	vc = mean(vc)
 	u = [6.2, 6.1, 6]
 	cu = math.fsum(u)
 	u = mean(u)
 	i = [158, 145, 150]
 	ci = math.fsum(i)
-	i = mean(i)*0.001
+	i = mean(i)
 	print
 	print 'dt min '+str(dt)
 	print 'p1 bar '+str(p1)
@@ -114,8 +114,9 @@ def thermolab1():
 	print 'cu '+str(cu)
 	print 'ci '+str(ci)
 	print
-	ron = 201
+	ron = 2.01
 	roc = rocw = 1000
+	p0 = 1.013
 	cppcw = 4.1855
 	cppcp = interpolation(30, 100, 32.766666, 4.178, 4.219)
 	# maybe 201
@@ -126,21 +127,16 @@ def thermolab1():
 	print 'cppcp kj/kg*k '+str(cppcp)
 	print 'to k '+str(to)
 	print 'hu kj/kg '+str(hu)
-	wt = u*i
-	print 'wt mW '+str(wt)
-	dhqout = cppcw*(t8-t7)
-	print 'dhqout kj/kg '+str(dhqout)
-	# p0 listed but we do not have a value for p0 so assume p1
-	p0 = p1
+	print
 	rogass = ron*(to/(to+t1))*(pamb/p0)
 	print 'rogass kg/m^3 '+str(rogass)
 	mdotgass = (vdotgas*rogass)/(3600*1000)
 	print 'mdotgass kg/s '+str(mdotgass)
 	pgas = mdotgass*hu
 	print 'Qin kW '+str(pgas)
-	mdotst = (roc*vc/dt)*0.1667*10
+	mdotst = (roc*vc/dt)/1000000/60
 	print 'mdotst kg/s '+str(mdotst)
-	qout = mdotst*dhqout
+	print
 	# slightly super heated
 	h2 = 604.74
 	s2 = 1.7766
@@ -156,12 +152,12 @@ def thermolab1():
 	h5 = hf5 + x*(hg5-hf5)
 	h6 = interpolation(32, 33, 32.766666, 129.97, 134.15)
 	s6 = interpolation(32, 33, 32.766666, 0.4507, 0.4644)
+	# h5 alternate value closer to 2675
 	pst = mdotst*(h4-h5)
-	print h5
 	print 'pst kW '+str(pst)
 	nb = pst/pgas
 	print 'nb efficiency '+str(nb)
-	pcw = ((vdotcw)*rocw*(cppcw*(t8-t7)))*0.000000277386
+	pcw = (vdotcw*rocw*(cppcw*(t8-t7)))/1000/3600
 	print 'pcw kW '+str(pcw)
 	pcp = mdotst*cppcp*(100-t6)
 	print 'pcp kW '+str(pcp)
@@ -169,7 +165,7 @@ def thermolab1():
 	print 'pt kW '+str(pt)
 	nth = pt/pst
 	pel = u*i * 0.001
-	print 'pel mW '+str(pel)
+	print 'pel W '+str(pel)
 	nel = pel/pt
 	n = pel/pgas
 	print
