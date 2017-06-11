@@ -106,4 +106,4 @@ def fluidslab2_cone(diam, dens):
 	print 'fth '+str(fth)
 
 fluidslab2_plate(0.01, 1)
-fluidslab2_hemisphere(0.01,1)
+fluidslab2_hemisphere(0.01, 1)
