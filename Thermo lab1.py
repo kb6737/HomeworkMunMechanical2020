@@ -115,8 +115,7 @@ def thermolab1():
 	print 'ci '+str(ci)
 	print
 	ron = 201
-	roc = 1000
-	rocw = 1000
+	roc = rocw = 1000
 	cppcw = 4.1855
 	cppcp = interpolation(30, 100, 32.766666, 4.178, 4.219)
 	# maybe 201
@@ -139,7 +138,7 @@ def thermolab1():
 	print 'mdotgass kg/s '+str(mdotgass)
 	pgas = mdotgass*hu
 	print 'Qin kW '+str(pgas)
-	mdotst = (roc*vc/dt)*0.1667
+	mdotst = (roc*vc/dt)*0.1667*10
 	print 'mdotst kg/s '+str(mdotst)
 	qout = mdotst*dhqout
 	# slightly super heated
@@ -158,6 +157,7 @@ def thermolab1():
 	h6 = interpolation(32, 33, 32.766666, 129.97, 134.15)
 	s6 = interpolation(32, 33, 32.766666, 0.4507, 0.4644)
 	pst = mdotst*(h4-h5)
+	print h5
 	print 'pst kW '+str(pst)
 	nb = pst/pgas
 	print 'nb efficiency '+str(nb)
@@ -168,7 +168,8 @@ def thermolab1():
 	pt = pst-(pcw-pcp)
 	print 'pt kW '+str(pt)
 	nth = pt/pst
-	pel = u*i
+	pel = u*i * 0.001
+	print 'pel mW '+str(pel)
 	nel = pel/pt
 	n = pel/pgas
 	print
