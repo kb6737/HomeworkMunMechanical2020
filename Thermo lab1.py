@@ -191,7 +191,15 @@ def thermolab1():
 	x, y = zip(*path.vertices)
 	line, = ax.plot(x, y, 'go-')
 	ax.grid()
-	ax.axis()
+	ax.set_xlabel('S')
+	ax.set_ylabel('T')
+	ax.annotate('1',xy=(s1, t1))
+	ax.annotate('2',xy=(s2, t2))
+	ax.annotate('3',xy=(s3, t3))
+	ax.annotate('4',xy=(s4, t4))
+	ax.annotate('5',xy=(s5, t5))
+	ax.annotate('6',xy=(s6, t6))
+	ax.axis([0,8,0,150])
 	plt.show()
 
 
