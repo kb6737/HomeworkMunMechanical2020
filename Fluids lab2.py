@@ -22,83 +22,94 @@ Options:
 
 import math
 
-def fluidslab2_plate(diam,dens):
+
+def fluidslab2_plate(diam, dens):
 	d1 = diam
-	#Fill up the list with the values as ordered in the lab.
-	F = []
-	s = []
-	l = []
+	# Fill up the list with the values as ordered in the lab.
+	f = [1, 2, 3, 4, 5]
+	s = [58.63, 40.49, 39.16, 33.49, 28.85]
+	l = [15, 14.8, 18.2, 17, 16.2]
 	n = -1
 	w1 = list()
 	fth = list()
 	flow = list()
-	while (n < len(F) - 1):
+	while n < len(f) - 1:
 		n += 1
 		flow.append(l[n] / s[n])
-		w1.append((4 * flow[n]) / (math.pi * d1 ^ 2))
+		ad = (math.pi*math.pow(d1, 2)/4)
+		print math.pow(d1, 2)
+		w1.append((flow[n]*0.001 / ad))
 		ro = dens
 		fth.append(flow[n] * ro * w1[n])
 	print 'flow rate '+str(flow)
 	print 'w1 '+str(w1)
 	print 'fth '+str(fth)
 
-def fluidslab2_hemisphere(diam,dens):
+
+def fluidslab2_hemisphere(diam, dens):
 	d1 = diam
-	#Fill up the list with the values as ordered in the lab.
-	F = []
-	s = []
-	l = []
+	# Fill up the list with the values as ordered in the lab.
+	f = [1,2,3,4,5]
+	s = [123.87,49.59,46.80,40.31,39.58]
+	l = [16,14,15,16,18]
 	n = -1
 	w1 = list()
 	fth = list()
 	flow = list()
-	while (n < len(F) - 1):
+	while n < len(f) - 1:
 		n += 1
 		flow.append(l[n] / s[n])
-		w1.append((4 * flow[n]) / (math.pi * d1 ^ 2))
+		ad = (math.pi * math.pow(d1, 2) / 4)
+		w1.append((flow[n]*0.001 / ad))
 		ro = dens
 		fth.append(2 * flow[n] * ro * w1[n])
 	print 'flow rate '+str(flow)
 	print 'w1 '+str(w1)
 	print 'fth '+str(fth)
 
-def fluidslab2_slope(diam,dens):
+
+def fluidslab2_slope(diam, dens):
 	d1 = diam
-	#Fill up the list with the values as ordered in the lab.
-	F = []
+	# Fill up the list with the values as ordered in the lab.
+	f = []
 	s = []
 	l = []
 	n = -1
 	w1 = list()
 	fth = list()
 	flow = list()
-	while (n < len(F) - 1):
+	while n < len(f) - 1:
 		n += 1
 		flow.append(l[n] / s[n])
-		w1.append((4 * flow[n]) / (math.pi * d1 ^ 2))
+		ad = (math.pi * math.pow(d1, 2) / 4)
+		w1.append((flow[n]*0.001 / ad))
 		ro = dens
-		fth.append(flow[n] * ro * w1[n]*math.cos(45)^2)
+		fth.append(flow[n] * ro * w1[n]*math.pow(math.cos(45), 2))
 	print 'flow rate '+str(flow)
 	print 'w1 '+str(w1)
 	print 'fth '+str(fth)
 
-def fluidslab2_cone(diam,dens):
+
+def fluidslab2_cone(diam, dens):
 	d1 = diam
-	#Fill up the list with the values as ordered in the lab.
-	F = []
+	# Fill up the list with the values as ordered in the lab.
+	f = []
 	s = []
 	l = []
 	n = -1
 	w1 = list()
 	fth = list()
 	flow = list()
-	while (n < len(F) - 1):
+	while n < len(f) - 1:
 		n += 1
 		flow.append(l[n] / s[n])
-		w1.append((4 * flow[n]) / (math.pi * d1 ^ 2))
+		ad = (math.pi * math.pow(d1, 2) / 4)
+		w1.append((flow[n]*0.001 / ad))
 		ro = dens
-		fth.append(flow[n] * ro * w1[n]*(1+math.cos(45)^2))
+		fth.append(flow[n] * ro * w1[n]*math.pow(math.cos(45), 2))
 	print 'flow rate '+str(flow)
 	print 'w1 '+str(w1)
 	print 'fth '+str(fth)
 
+fluidslab2_plate(0.01, 1)
+fluidslab2_hemisphere(0.01,1)
