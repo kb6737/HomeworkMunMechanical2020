@@ -15,7 +15,9 @@
 
 
 import math
-import matplotlib
+import matplotlib.path as mpath
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 
 
 def mean(numbers):
@@ -70,29 +72,31 @@ def thermolab1():
 	vdotgas = mean(vdotgas)
 	vc = [72.25, 75, 135]
 	cvc = math.fsum(vc)
-	vc = mean(vc)
+	vc = mean(vc)/100000000
 	u = [6.2, 6.1, 6]
 	cu = math.fsum(u)
 	u = mean(u)
 	i = [158, 145, 150]
 	ci = math.fsum(i)
-	i = mean(i)
-	print 'dt '+str(dt)
-	print 'p1 '+str(p1)
-	print 'pamb '+str(pamb)
-	print 't1 '+str(t1)
-	print 't2 '+str(t2)
-	print 't3 '+str(t3)
-	print 't4 '+str(t4)
-	print 't5 '+str(t5)
-	print 't6 '+str(t6)
-	print 't7 '+str(t7)
-	print 't8 '+str(t8)
-	print 'vdotcw '+str(vdotcw)
-	print 'vdotgas '+str(vdotgas)
-	print 'vc '+str(vc)
-	print 'u '+str(u)
-	print 'i '+str(i)
+	i = mean(i)*0.001
+	print
+	print 'dt min '+str(dt)
+	print 'p1 bar '+str(p1)
+	print 'pamb bar '+str(pamb)
+	print 't1 c '+str(t1)
+	print 't2 c '+str(t2)
+	print 't3 c '+str(t3)
+	print 't4 c '+str(t4)
+	print 't5 c '+str(t5)
+	print 't6 c '+str(t6)
+	print 't7 c '+str(t7)
+	print 't8 c '+str(t8)
+	print 'vdotcw l/h '+str(vdotcw)
+	print 'vdotgas l/h '+str(vdotgas)
+	print 'vc cm^3 '+str(vc)
+	print 'u V '+str(u)
+	print 'i mA '+str(i)
+	print
 	print 'cdt '+str(cdt)
 	print 'cp1 '+str(cp1)
 	print 'cpamb '+str(cpamb)
@@ -109,30 +113,86 @@ def thermolab1():
 	print 'cvc '+str(cvc)
 	print 'cu '+str(cu)
 	print 'ci '+str(ci)
+	print
 	ron = 201
 	roc = 1000
-	cpqout = 4.1855
-	# maybe 2.01
+	rocw = 1000
+	cppcw = 4.1855
+	cppcp = interpolation(30, 100, 32.766666, 4.178, 4.219)
+	# maybe 201
 	hu = 46354
 	to = 273.15
+	print 'ron kg/m^3 '+str(ron)
+	print 'cppcw kj/kg*k '+str(cppcw)
+	print 'cppcp kj/kg*k '+str(cppcp)
+	print 'to k '+str(to)
+	print 'hu kj/kg '+str(hu)
 	wt = u*i
-	dhqout = cpqout*(t8-t7)
+	print 'wt mW '+str(wt)
+	dhqout = cppcw*(t8-t7)
+	print 'dhqout kj/kg '+str(dhqout)
 	# p0 listed but we do not have a value for p0 so assume p1
 	p0 = p1
 	rogass = ron*(to/(to+t1))*(pamb/p0)
+	print 'rogass kg/m^3 '+str(rogass)
 	mdotgass = (vdotgas*rogass)/(3600*1000)
+	print 'mdotgass kg/s '+str(mdotgass)
 	pgas = mdotgass*hu
-	mdotst = roc*vc/dt
+	print 'Qin kW '+str(pgas)
+	mdotst = (roc*vc/dt)*0.1667
+	print 'mdotst kg/s '+str(mdotst)
 	qout = mdotst*dhqout
-	
-	# pst = mdotst * (h3pp-h3p)
-	# nb = pst/pgas
-	# pcw = vdotcw*rocw*cp*(t8-t7)
-	# pcp = mdotst*cp*(100-t6)
-	# pt = pst-(pcw-pcp)
-	# nth = pt/pst
-	# pel = u*i
-	# nel = pel/pt
-	# n = pel/pgas
+	# slightly super heated
+	h2 = 604.74
+	s2 = 1.7766
+	h3 = 2732.4
+	s3 = 6.8959
+	h4 = 2698.8
+	s4 = s5 = interpolation(110, 120, 116, 7.2387, 7.1296)
+	sg5 = interpolation(100, 110, 101, 7.3549, 7.2387)
+	sf5 = interpolation(100, 110, 101, 1.3069, 1.4185)
+	hg5 = interpolation(100, 110, 101, 2676.1, 2691.5)
+	hf5 = interpolation(100, 110, 101, 419.04, 461.30)
+	x = (s5-sf5)/(sg5-sf5)
+	h5 = hf5 + x*(hg5-hf5)
+	h6 = interpolation(32, 33, 32.766666, 129.97, 134.15)
+	s6 = interpolation(32, 33, 32.766666, 0.4507, 0.4644)
+	pst = mdotst*(h4-h5)
+	print 'pst kW '+str(pst)
+	nb = pst/pgas
+	print 'nb efficiency '+str(nb)
+	pcw = ((vdotcw)*rocw*(cppcw*(t8-t7)))*0.000000277386
+	print 'pcw kW '+str(pcw)
+	pcp = mdotst*cppcp*(100-t6)
+	print 'pcp kW '+str(pcp)
+	pt = pst-(pcw-pcp)
+	print 'pt kW '+str(pt)
+	nth = pt/pst
+	pel = u*i
+	nel = pel/pt
+	n = pel/pgas
+	print
+	print 'nth '+str(nth)
+	print 'nel '+str(nel)
+	print 'n '+str(n)
+	# fig, ax = plt.subplots()
+	# Path = mpath.Path
+	# path_data = [
+	# 	(Path.MOVETO, (s2, t2)),
+	# 	(Path.LINETO, (s3, t3)),
+	# 	(Path.LINETO, (s4, t4)),
+	# 	(Path.LINETO, (s5, t5)),
+	# 	(Path.LINETO, (s6, t6)),
+	# ]
+	# codes, verts = zip(*path_data)
+	# path = mpath.Path(verts, codes)
+	# # plot control points and connecting lines
+	# x, y = zip(*path.vertices)
+	# line, = ax.plot(x, y, 'go-')
+	# ax.grid()
+	# ax.axis()
+	# plt.show()
+
+
 
 thermolab1()
