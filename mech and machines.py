@@ -44,10 +44,20 @@ def question4():
 
 
 def question6():
+	woa = rev2rad(30)
+	loa = 15
+	loq = 10
+	lqb = 12.5
+	lbc = 50
 
 
 def question8():
-
+	woa = rev2rad(130)
+	loa = 100
+	lab = 400
+	lce = 400
+	lac = 150
+	lef = 300
 
 
 question1()
