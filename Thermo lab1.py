@@ -138,6 +138,7 @@ def thermolab1():
 	print 'mdotst kg/s '+str(mdotst)
 	print
 	# slightly super heated
+	s1 = interpolation(17, 18, 17.8, 0.2535, 0.2679)
 	h2 = 604.74
 	s2 = 1.7766
 	h3 = 2732.4
@@ -153,7 +154,9 @@ def thermolab1():
 	h6 = interpolation(32, 33, 32.766666, 129.97, 134.15)
 	s6 = interpolation(32, 33, 32.766666, 0.4507, 0.4644)
 	# h5 alternate value closer to 2675
-	pst = mdotst*(h4-h5)
+	h3prime = 610.75
+	h3primeprime = 2740.2
+	pst = mdotst*(h3primeprime-h3prime)
 	print 'pst kW '+str(pst)
 	nb = pst/pgas
 	print 'nb efficiency '+str(nb)
@@ -164,7 +167,7 @@ def thermolab1():
 	pt = pst-(pcw-pcp)
 	print 'pt kW '+str(pt)
 	nth = pt/pst
-	pel = u*i * 0.001
+	pel = u*i /1000/1000
 	print 'pel W '+str(pel)
 	nel = pel/pt
 	n = pel/pgas
@@ -172,23 +175,24 @@ def thermolab1():
 	print 'nth '+str(nth)
 	print 'nel '+str(nel)
 	print 'n '+str(n)
-	# fig, ax = plt.subplots()
-	# Path = mpath.Path
-	# path_data = [
-	# 	(Path.MOVETO, (s2, t2)),
-	# 	(Path.LINETO, (s3, t3)),
-	# 	(Path.LINETO, (s4, t4)),
-	# 	(Path.LINETO, (s5, t5)),
-	# 	(Path.LINETO, (s6, t6)),
-	# ]
-	# codes, verts = zip(*path_data)
-	# path = mpath.Path(verts, codes)
-	# # plot control points and connecting lines
-	# x, y = zip(*path.vertices)
-	# line, = ax.plot(x, y, 'go-')
-	# ax.grid()
-	# ax.axis()
-	# plt.show()
+	fig, ax = plt.subplots()
+	Path = mpath.Path
+	path_data = [
+		(Path.MOVETO, (s1, t1)),
+		(Path.LINETO, (s2, t2)),
+		(Path.LINETO, (s3, t3)),
+		(Path.LINETO, (s4, t4)),
+		(Path.LINETO, (s5, t5)),
+		(Path.LINETO, (s6, t6)),
+	]
+	codes, verts = zip(*path_data)
+	path = mpath.Path(verts, codes)
+	# plot control points and connecting lines
+	x, y = zip(*path.vertices)
+	line, = ax.plot(x, y, 'go-')
+	ax.grid()
+	ax.axis()
+	plt.show()
 
 
 
