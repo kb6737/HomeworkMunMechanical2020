@@ -13,12 +13,6 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-"""Usage:
-	Fluidslab2.py execute (FUNCTION)
-	Fluidslab2.py -h --help
-Options:
-	execute (docustomexport)
-"""
 
 import math
 
