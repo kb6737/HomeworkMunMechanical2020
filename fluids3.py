@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bi\nenv python 2.7
 #  Copyright 2017 Keegan Joseph Brophy
 #
 #    Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +16,8 @@
 import math
 
 
-def run1(vin, lvl1, lvl2, d, u, l, k,pt1):
+def run1(vin, lvl1, lvl2, d, u, l, k, pt1, name):
 	lvlloss = list()
-	# lAmbda = 0.3164/math.pow(re, 1./4)
-	# laMbda = math.pow(2*math.log((2.51/(re*math.sqrt(lAmbda)))+ 0.27/(d/k)),-2)
 	v = list()
 	vdot = list()
 	re = list()
@@ -35,40 +33,17 @@ def run1(vin, lvl1, lvl2, d, u, l, k,pt1):
 		vdot.append(vin[n]*lhvms)
 		v.append((4*vdot[n])/(math.pi * d * d))
 		re.append((v[n] * d )/ u)
-		lAmbda.append(0.3164/math.pow(re[n], 1./4))
-		print
-		print lAmbda[n] *l/d
-		print
-		print (2*lvlloss[n]*g)/(math.pow(v[n], 2))
-		print
 		if (re[n] > 2320) & (re[n] < math.pow(10, 5)) & pt1:
+			lAmbda.append(0.3164/math.pow(re[n], 1./4))
 			sigma.append(((2*lvlloss[n]*g)/(v[n]*v[n]))-(lAmbda[n]*l/d))
 			thl.append((lAmbda[n]*l/d)*(v[n]*v[n]/(2*g)))
 		else:
-			lAmbda.append(math.pow(2 * math.log((2.51 / (re[n] * math.sqrt(lAmbda[n]))) + 0.27 / (d / k)), -2))
+			lAmbda.append((lvlloss[n]*d*2*g)/(l*v[n]*v[n]))
 			sigma.append((2*lvlloss[n]*g)/(v[n]*v[n])-(lAmbda[n]*l/d))
 			thl.append((lAmbda[n]*l/d)*(v[n]*v[n]/(2*g)))
-	print 'Loss level m '+str(lvlloss)
-	print
-	print 'Flow rate m^3/s '+str(vdot)
-	print
-	print 'Flow velocity m/s '+str(v)
-	print
-	print "Renold's number "+str(re)
-	print
-	print 'Coefficient of pipe friction '+str(lAmbda)
-	print
-	print 'Length of pipe m '+str(l)
-	print
-	print 'Pipe roughness m '+str(k)
-	print
-	print 'Kinematic viscosity m^2/s '+str(u)
-	print
-	print 'Inside diameter of pipe m '+str(d)
-	print
-	print 'Resistance coefficient '+str(sigma)
-	print
-	print 'theoretical loss '+str(thl)
+	f = open('test '+str(name)+'.txt', 'w')
+	f.write('Loss level m '+str(lvlloss)+'\n'+'Flow rate m^3/s '+str(vdot)+'\n'+'Flow velocity m/s '+str(v)+'\n'+"Renold's number "+str(re)+'\n'+'Coefficient of pipe friction '+str(lAmbda)+'\n'+'Length of pipe m '+str(l)+'\n'+'Pipe roughness m '+str(k)+'\n'+'Kinematic viscosity m^2/s '+str(u)+'\n'+'Inside diameter of pipe m '+str(d)+'\n'+'Resistance coefficient '+str(sigma)+'\n'+'theoretical loss '+str(thl))
+	f.close()
 
 	
 cPID = 0.016
@@ -89,9 +64,8 @@ t3lvl2 = [505, 490, 474, 446, 412, 377, 324]
 t4lvl1 = [540, 540, 540, 560, 580, 590, 620]
 t4lvl2 = [510, 490, 460, 430, 380, 330, 260]
 u = 1.297*math.pow(10,-6)
-l = 1
 k = (0.001)*1/1000
-run1(t1vin, t2lvl1, t2lvl2, cPID, u, l, k, True)
-run1(t1vin, t1lvl1, t1lvl2, pVCPID, u, l, k, True)
-run1(t1vin, t3lvl1, t3lvl2, pCVPID, u, , k, False)
-run1(t1vin, t4lvl1, t4lvl2, pCVPID, u, , k, False)
+run1(t1vin, t2lvl1, t2lvl2, cPID, u, 1, k, True, 'copper')
+run1(t1vin, t1lvl1, t1lvl2, pVCPID, u, 1, k, True, 'pvc')
+run1(t1vin, t3lvl1, t3lvl2, pVCPID, u, .2, k, False, 'knee')
+run1(t1vin, t4lvl1, t4lvl2, pVCPID, u, .091, k, False, 'elbow')
