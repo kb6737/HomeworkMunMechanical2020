@@ -77,6 +77,8 @@ def q1():
     master2 = list()
     master3 = list()
     master4 = list()
+    master5 = list()
+    master6 = list()
     x=0
     while x<=360:
         r = [1, 4, 5, 3]
@@ -111,15 +113,40 @@ def q1():
         eq1 = Eq(vrpp[0].i+vrpp[1].i,vrpp[2].i+vrpp[3].i)
         tp3, value = solve_linear(eq1)
         tpp = [0, tp1, 0, value]
-        master3.append(tp)
-        master4.append(tpp)
+	r = [1, 6, 5, 3]
+	vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp)
+        master3.append(vrp[0].i+vrp[1].i)
+	master4.append(vrp[0].j+vrp[1].j)
+        master5.append(vrpp[0].i+vrpp[1].i)
+	master6.append(vrpp[0].j+vrpp[1].j)
         x += 15
+    for x, y in enumerate(vr):
+        print 'the r'+str(x)+' bar in I and J '+str(vr[x].i)+'i and '+str(vr[x].j)+'j'
+        print 'the r'+str(x)+' dot bar in I and J '+str(vrp[x].i)+'i and '+str(vrp[x].j)+'j'
+        print 'the r'+str(x)+' double dot bar in I and J '+str(vrpp[x].i)+'i and '+str(vrpp[x].j)+'j'
+        print 'a vector loop equation is an isolation of a variable knowing two sides equal zero.'
+    r = [var('r0'),var('C'),var('r2'),var('r3')]
+    rp = [var('rp0'),var('Cp'),var('rp2'),var('rp3')]
+    rpp = [var('rpp0'),var('Cpp'),var('rpp2'),var('rpp3')]
+    t = [var('t0'),var('tc'),var('t2'),var('t3')]
+    tp = [var('tp0'),var('tpc'),var('tp2'),var('tp3')]
+    tpp = [var('tpp0'),var('tppc'),var('tpp2'),var('tpp3')]
+    vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp)
+    print 'vrp[0].i + vrp[1].i = vrp[2].i + vrp[3].i'
+    print 'where "vrp" stands for vector r dot, we start at the r dot becasue the r values can be solved geometricaly'
+    print 'the general form for C will be'
+    print str(vr[0].i+vr[1].i,vr[2].i+vr[3].i)
+    print str(vr[0].j+vr[1].j,vr[2].j+vr[3].j)
+    print str(vrp[0].i+vrp[1].i,vrp[2].i+vrp[3].i)
+    print str(vrp[0].j+vrp[1].j,vrp[2].j+vrp[3].j)
+    print str(vrpp[0].i+vrpp[1].i,vrpp[2].i+vrpp[3].i)
+    print str(vrpp[0].j+vrpp[1].j,vrpp[2].j+vrpp[3].j)
     plt.figure(1)
     plt.plot(master1,master2)
     plt.figure(2)
-    plt.plot(master3)
+    plt.plot(master3,master4)
     plt.figure(3)
-    plt.plot(master4)
+    plt.plot(master5,master6)
     plt.show()
 
 
@@ -154,22 +181,35 @@ def q2():
     eq1 = Eq(vrpp[0].i+vrpp[1].i,vrpp[2].i)
     a, b = solve_linear(eq1)
     tpp = [0, 0, b]
-    vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp,3)
     print r
     print rp
     print rpp
     print t
     print tp
     print tpp
-
+    r = [var('r0'),var('C'),var('r2')]
+    rp = [var('rp0'),var('Cp'),var('rp2')]
+    rpp = [var('rpp0'),var('Cpp'),var('rpp2')]
+    t = [var('t0'),var('tc'),var('t2')]
+    tp = [var('tp0'),var('tpc'),var('tp2')]
+    tpp = [var('tpp0'),var('tppc'),var('tpp2')]
+    vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp,3)    
+    print str(vr[0].i+vr[1].i,vr[2].i)
+    print str(vr[0].j+vr[1].j,vr[2].j)
+    print str(vrp[0].i+vrp[1].i,vrp[2].i)
+    print str(vrp[0].j+vrp[1].j,vrp[2].j)
+    print str(vrpp[0].i+vrpp[1].i,vrpp[2].i)
+    print str(vrpp[0].j+vrpp[1].j,vrpp[2].j)
+    print 'this can be used to solve for any problem given any loop equation but to solve for the inital lengths and angles'
+    print 'we use sin law for this and generate the equation ('L')/sin((90+30)) = 12.5/sin((180-x-120)) where x is any angle limited by geometry'
 
 def q4():
     master1 = list()
     master2 = list()
     master3 = list()
     master4 = list()
-    x=0
-    while x<=360:
+    x=45
+    while x==45:
         valuevar=15*sin(degtrad(x))-20
         s = sqrt(40**2-valuevar**2)
         value=15*cos(degtrad(x))+s
@@ -201,13 +241,25 @@ def q4():
         eq1 = Eq(vrpp[0].i+vrpp[1].i,vrpp[2].i+vrpp[3].i)
         a, b = solve_linear(eq1)
         tpp = [0, b, 0, 0]
-        vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp,3)
+        vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp,4)
         master1.append(vr[0].i+(15*cos(t[1])**2+15*cos(t[1]+pi/2)))
         master2.append(vr[0].j+(15*sin(t[1])**2+15*sin(t[1]+pi/2)))
-        x+=15
-    plt.figure(1)
+	print 'the initial mechanism is solved then the point C is solved knowing the difference in geometry from the first
+        print 'then the componets of C give us a 3 bar'
+	r1 = [15,15,sqrt(15**2+15**2]
+        rp1 = [0,0,0]
+        rpp1 = [0, 0, 0]
+        t1 = [t[1],pi/2+t[1],t[1]+degtrad(15)]
+        tp1 = [tp[1],0,0]
+        tpp1 = [tpp[1],0,0]
+        vr1, vrp1, vrpp1 = bargen(r1, rp1, rpp1, t1, tp1, tpp1,3)
+	print 'C velocity in i '+str(vrp[0].i+vrp1[2].i)+' and j '+str(vrp[0].j+vrp1[2].j)
+        print 'C acceleration in i '+str(vrpp[0].i+vrpp1[2].i)+' and j '+str(vrpp[0].j+vrpp1[2].j)
+	x+=15
+    plt.figure(4)
     pl1 = plt.plot(master1, master2)
     plt.show()
+    
 
 def q6():
     master1 = list()
@@ -251,10 +303,8 @@ def q6():
         eq1 = Eq(vrpp[0].i + vrpp[1].i, vrpp[2].i)
         a, b = solve_linear(eq1)
         tpp = [0, 0, b]
-
         x+=15
         h=cos(t[0])*12 - 6
-
         r1 = [cos(t[0])*12+8**2-h**2,6,12,8]
         t1 = [pi,pi/2,t[2],asin(h/8)+pi]
         rp1 = [var('rp0'),0,0,0]
@@ -288,14 +338,51 @@ def q6():
         master2.append(vrp[0].j + vrp[1].j)
         master3.append(vrpp[0].i + vrpp[1].i)
         master4.append(vrpp[0].j + vrpp[1].j)
-    plt.figure(1)
+	    for x, y in enumerate(vr):
+                print 'the r'+str(x)+' bar in I and J '+str(vr[x].i)+'i and '+str(vr[x].j)+'j'
+                print 'the r'+str(x)+' dot bar in I and J '+str(vrp[x].i)+'i and '+str(vrp[x].j)+'j'
+                print 'the r'+str(x)+' double dot bar in I and J '+str(vrpp[x].i)+'i and '+str(vrpp[x].j)+'j'
+                print 'a vector loop equation is an isolation of a variable knowing two sides equal zero.'
+    r = [var('r0'),var('r'),var('r2'),var('r3')]
+    rp = [var('rp0'),var('rp'),var('rp2'),var('rp3')]
+    rpp = [var('rpp0'),var('rpp1'),var('rpp2'),var('rpp3')]
+    t = [var('t0'),var('tp'),var('t2'),var('t3')]
+    tp = [var('tp0'),var('tp1'),var('tp2'),var('tp3')]
+    tpp = [var('tpp0'),var('tpp1'),var('tpp2'),var('tpp3')]
+    vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp)
+    print 'vrp[0].i + vrp[1].i = vrp[2].i + vrp[3].i'
+    print 'where "vrp" stands for vector r dot, we start at the r dot becasue the r values can be solved geometricaly'
+    print 'the general form for C will be'
+    print str(vr[0].i+vr[1].i,vr[2].i+vr[3].i)
+    print str(vr[0].j+vr[1].j,vr[2].j+vr[3].j)
+    print str(vrp[0].i+vrp[1].i,vrp[2].i+vrp[3].i)
+    print str(vrp[0].j+vrp[1].j,vrp[2].j+vrp[3].j)
+    print str(vrpp[0].i+vrpp[1].i,vrpp[2].i+vrpp[3].i)
+    print str(vrpp[0].j+vrpp[1].j,vrpp[2].j+vrpp[3].j)
+    print 'to obtain C we need the loop QAO solved. That is done geometrically using by using a position analysis or sin law'
+    print 'Qa=sqrt(6^2+(3*cos(x))^2)'
+    print 'we then fill in our data and solve for what we need to find (this data is at 360 degreees)'
+    r1 = [cos(t[0])*12+8**2-h**2,6,12,8]
+    t1 = [pi,pi/2,t[2],asin(h/8)+pi]
+    rp1 = [var('rp0'),0,0,0]
+    rpp1 = [var('rpp0'),0,0,0]
+    tp1 = [0,0,tp[2],var('tp3')]
+    tpp1 = [0,0,tpp[2],var('tpp3')]
+    print r1
+    print rp1    
+    print rpp1
+    print t1
+    print tp1
+    print tpp1
+    print 'the i components are equal to our rp0 and rpp0 values'
+    plt.figure(5)
     pl1 = plt.plot(master1, master2)
-    plt.figure(2)
+    plt.figure(6)
     pl1 = plt.plot(master3, master4)
     plt.show()
 
 
-# q1()
+q1()
 q2()
-# q4()
-# q6()
+q4()
+q6()
