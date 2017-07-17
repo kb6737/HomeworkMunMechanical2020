@@ -217,7 +217,7 @@ def q4():
         rp = [0, 0, var('rp2'), 0]
         rpp = [0, 0, var('rpp2'), 0]
         t = [degtrad(x), atan(valuevar/s), 0, pi / 2]
-        tp = [150, var('tp1'), 0, 0]
+        tp = [15.71, var('tp1'), 0, 0]
         tpp = [0, var('tpp1'), 0, 0]
         vr, vrp, vrpp = bargen(r, rp, rpp, t, tp, tpp,4)
         eq1 = Eq(vrp[0].i+vrp[1].i,vrp[2].i+vrp[3].i)
