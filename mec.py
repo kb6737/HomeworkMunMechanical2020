@@ -109,6 +109,9 @@ def twoangsolve1(r, t):
 	A = 2 * r[0] * r[3] * cos(t[0]) - 2 * r[1] * r[3] * cos(t[1])
 	B = 2 * r[0] * r[3] * sin(t[0]) - 2 * r[1] * r[3] * sin(t[1])
 	C = r[0] ** 2 + r[1] ** 2 + r[3] ** 2 - r[2] ** 2 - 2 * r[0] * r[1] * (cos(t[0]) * cos(t[1]) + sin(t[0]) * sin(t[1]))
+	print A
+	print B
+	print C
 	x = symbols('x')
 	z, y = solve((C - A)*x*x + 2*B*x + A + C, x)
 	t32 = 2 * atan(y)
@@ -116,7 +119,7 @@ def twoangsolve1(r, t):
 	return float(t32), float(t2)
 
 
-def fourbar(barnums=4):
+def q1(barnums=4):
 	mstr1 = list()
 	mstr2 = list()
 	mstr3 = list()
@@ -169,7 +172,7 @@ def fourbar(barnums=4):
 		tpp = [0, tpp1, 0, tpp3]
 		mstr4.append(tpp)
 		print x
-		x += 6
+		x += .5
 	plt.figure(1)
 	pl1 = plt.plot(mstr1, mstr2)
 	plt.figure(2)
@@ -180,10 +183,9 @@ def fourbar(barnums=4):
 
 
 
-# fourbar()
-
 def q2():
 	r = [(sin(degtrad(90+30))*12.5/sin(degtrad((180-90-30-30)))), 12.5, (sin(degtrad(30))*12.5/sin(degtrad((180-90-30-30))))]
+	print r
 	t = [degtrad(30), degtrad(0), degtrad(-120+180)]
 	rp = [.5, 0, symbols('rp2')]
 	rpp = [0,0,symbols('rpp2')]
@@ -216,8 +218,6 @@ def q2():
 	print tp
 	print tpp
 
-
-# q2()
 
 
 def q4():
@@ -258,7 +258,6 @@ def q4():
 	print vrpp[1].i
 	print vrpp[1].j
 
-# q4()
 
 def q6():
 	master1=list()
@@ -295,10 +294,11 @@ def q6():
 		vr,vrp,vrpp=bargen(r,rp,rpp,t,tp,tpp,3)
 		a,b=solve_linear(vrpp[0].i,vrpp[2].i)
 		rpp=[b,0,0]
-		x+=5
-		b=atan((12*sin(t[0])-6)/8)
+		x+=6
+
+		b=asin(((12*sin(t[0]))-6)/8)
 		n=-cos(b)*8+cos(t[0])*12
-		r1=[12,8,-n,6]
+		r1=[12,8,n,6]
 		rp1=[0,0,var('rp'),0]
 		rpp1=[0,0,var('rpp'),0]
 		t1=[t[0],pi+b,pi,pi/2]
@@ -321,12 +321,20 @@ def q6():
 		a, b = solve_linear(vrpp1[0].i + vrpp1[1].i, vrpp1[2].i + vrpp1[3].i)
 		rpp1 = [0, 0, b, 0]
 		vr1, vrp1, vrpp1 = bargen(r1, rp1, rpp1, t1, tp1, tpp1, 4)
-		master1.append(vr1[0].i + vr1[1].i)
-		master2.append(vr1[0].j + vr1[1].j)
+		master1.append(cos(t1[1])*8 + cos(t[0])*12)
+		master2.append(sin(t1[1])*8 + sin(t[0])*12)
 		master3.append(vrp1[0].i + vrp1[1].i)
 		master4.append(vrp1[0].j + vrp1[1].j)
 		master5.append(vrpp1[0].i + vrpp1[1].i)
 		master6.append(vrpp1[0].j + vrpp1[1].j)
+		# print master1
+		# print master2
+		# print master3
+		# print master4
+		# print master5
+		# print master6
+
+
 	plt.figure(1)
 	pl1 = plt.plot(master1, master2)
 	plt.figure(2)
@@ -335,5 +343,4 @@ def q6():
 	pl3 = plt.plot(master5,master6)
 	plt.show()
 
-
-q6()
+q2()
