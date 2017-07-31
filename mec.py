@@ -82,8 +82,13 @@ def q6(bar2,bar3,bar4,bar5,bar6):
 	master10 = list()
 	master11 = list()
 	master12 = list()
+	master13 = list()
+	master14 = list()
+	master15 = list()
 	x=(14**2+4**2-2*14*4*cos(degtrad(45)))**.5
+	var2=x
 	w = 20000 * 9.81
+	n=0.0
 	while x <= bar2+bar3 :
 		t0 = acos((x ** 2 + bar2 ** 2 - bar3 ** 2) / (2 * x * bar2))
 		t2 = acos((bar3 ** 2 + bar2 ** 2 - x ** 2) / (2 * bar3 * bar2))
@@ -178,33 +183,67 @@ def q6(bar2,bar3,bar4,bar5,bar6):
 		if fcb>0:
 			master9.append(fcb)
 			master10.append(t1[0])
+		master11.append(r[0])
+		master12.append(t1[3])
+		master13.append(rp[1])
+		n+=.1
+		master14.append(n)
+		master15.append(fcb*(x-var2)/n)
 		x+=.1
-
 	plt.figure(1)
 	plt.plot(master1, master2)
 	plt.title('Position analysis of B')
 	plt.xlabel('point B i')
 	plt.ylabel('Point B j')
+	plt.savefig('1')
+
 	plt.figure(2)
 	plt.plot(master3, master4)
 	plt.title('Position analysis of D')
 	plt.xlabel('point D i')
 	plt.ylabel('Point D j')
+	plt.savefig('2')
+
 	plt.figure(3)
 	plt.plot(master5, master6)
 	plt.title('Position analysis of E')
 	plt.xlabel('point E i')
 	plt.ylabel('Point E j')
+	plt.savefig('3')
+
 	plt.figure(4)
 	plt.plot(master7,master8)
 	plt.title('Force analysis of F')
 	plt.xlabel('Bar Fde')
 	plt.ylabel('Bar Ffe')
+	plt.savefig('4')
+
 	plt.figure(5)
 	plt.plot(master10,master9)
 	plt.title('Force analysis of piston')
 	plt.xlabel('Theta')
 	plt.ylabel('Bar Fcb')
+	plt.savefig('5')
+
+	plt.figure(6)
+	plt.plot(master11, master12)
+	plt.title('Force analysis of piston')
+	plt.xlabel('Lenth of piston')
+	plt.ylabel('Theta 7')
+	plt.savefig('6')
+
+	plt.figure(7)
+	plt.plot(master13,master12)
+	plt.title('Force analysis of piston')
+	plt.xlabel('Velocity of piston')
+	plt.ylabel('Theta 7')
+	plt.savefig('7')
+	plt.figure(8)
+	plt.plot(master14,master15)
+	plt.title('Power')
+	plt.xlabel('Time')
+	plt.ylabel('Force*Distance')
+	plt.savefig('8')
 	plt.show()
 
 
