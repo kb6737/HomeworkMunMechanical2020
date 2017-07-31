@@ -169,10 +169,11 @@ def q6(bar2,bar3,bar4,bar5,bar6):
 		a, b = solve_linear(eq1)
 		c, d = solve_linear(eq2)
 		e, f = solve_linear(b, d)
-		ffe=f
+		#check e,f for fde or ffe it changes based on the computer type and i check this myself every time i run the code on a new cpu
+		fde=f
 		eq1=Eq(ffe*cos(t1[3]),fde*cos(pi-t1[1]))
 		a, b = solve_linear(eq1)
-		fde=b
+		ffe=b
 		master7.append(fde)
 		master8.append(ffe)
 		fdei = fde * cos(pi - t1[1])
@@ -182,7 +183,7 @@ def q6(bar2,bar3,bar4,bar5,bar6):
 		fcb=b
 		if fcb>0:
 			master9.append(fcb)
-			master10.append(t1[0])
+			master10.append(t1[3])
 		master11.append(r[0])
 		master12.append(t1[3])
 		master13.append(rp[1])
@@ -221,31 +222,30 @@ def q6(bar2,bar3,bar4,bar5,bar6):
 	plt.figure(5)
 	plt.plot(master10,master9)
 	plt.title('Force analysis of piston')
-	plt.xlabel('Theta')
+	plt.xlabel('Theta 6')
 	plt.ylabel('Bar Fcb')
 	plt.savefig('5')
 
 	plt.figure(6)
-	plt.plot(master11, master12)
-	plt.title('Force analysis of piston')
-	plt.xlabel('Lenth of piston')
-	plt.ylabel('Theta 7')
+	plt.plot(master12, master11)
+	plt.title('Position')
+	plt.ylabel('Lenth of piston')
+	plt.xlabel('Theta 6')
 	plt.savefig('6')
 
 	plt.figure(7)
 	plt.plot(master13,master12)
 	plt.title('Force analysis of piston')
 	plt.xlabel('Velocity of piston')
-	plt.ylabel('Theta 7')
+	plt.ylabel('Theta 6')
 	plt.savefig('7')
+
 	plt.figure(8)
 	plt.plot(master14,master15)
 	plt.title('Power')
 	plt.xlabel('Time')
-	plt.ylabel('Force*Distance')
+	plt.ylabel('Force*Distance/time')
 	plt.savefig('8')
 	plt.show()
 
-
 q6(14,4,4.5,3.2,7.75)
-#q6(14,4,b4,b5,b6,b7,b8)
