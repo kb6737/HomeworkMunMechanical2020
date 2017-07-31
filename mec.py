@@ -70,19 +70,21 @@ def radtdeg(t):
 
 #def q6(bar2,bar3,bar4,bar5,bar6,bar7,bar8):
 def q6(bar2,bar3,bar4,bar5,bar6):
-	master1=list()
-	master2=list()
-	master3=list()
-	master4=list()
+	master1 = list()
+	master2 = list()
+	master3 = list()
+	master4 = list()
 	master5 = list()
 	master6 = list()
 	master7 = list()
 	master8 = list()
 	master9 = list()
 	master10 = list()
+	master11 = list()
+	master12 = list()
 	x=(14**2+4**2-2*14*4*cos(degtrad(45)))**.5
 	w = 20000 * 9.81
-	while x <= bar2+2.7 :
+	while x <= bar2+bar3 :
 		t0 = acos((x ** 2 + bar2 ** 2 - bar3 ** 2) / (2 * x * bar2))
 		t2 = acos((bar3 ** 2 + bar2 ** 2 - x ** 2) / (2 * bar3 * bar2))
 		tp0,tp2,tpp0,tpp2=var('tp0 tp2 tpp0 tpp2')
@@ -152,57 +154,58 @@ def q6(bar2,bar3,bar4,bar5,bar6):
 		v1r, v1rp, v1rpp = bargen(r1, r1p, r1pp, t1, t1p, t1pp, 4)
 		master1.append(vr[0].i)
 		master2.append(vr[0].j)
-		master3.append(vrp[0].i)
-		master4.append(vrp[0].j)
-		master5.append(v1r[0].i)
-		master6.append(v1r[0].j)
+		master3.append(v1r[0].i)
+		master4.append(v1r[0].j)
+		master5.append(v1r[0].i+v1r[1].i)
+		master6.append(v1r[0].j+v1r[0].j)
 		fad,fde,ffe,fcb=var('fad fde ffe fcb')
-		if t1[0]>=pi/2:
-			t1[0]=t1[0]
 		eq1=Eq(ffe*cos(t1[3]),fde*cos(pi-t1[1]))
 		eq2=Eq(ffe*sin(t1[3])+fde*sin(pi-t1[1]),w)
 		a, b = solve_linear(eq1)
 		c, d = solve_linear(eq2)
 		e, f = solve_linear(b, d)
-		fde=f
-		eq1=Eq(ffe*cos(t1[3]),-fde*cos(t1[1]))
+		ffe=f
+		eq1=Eq(ffe*cos(t1[3]),fde*cos(pi-t1[1]))
 		a, b = solve_linear(eq1)
-		ffe=b
-		# print fde
-		# print ffe
-		master9.append(fde)
-		master10.append(b)
+		fde=b
+		master7.append(fde)
+		master8.append(ffe)
 		fdei = fde * cos(pi - t1[1])
 		fdej = fde * sin(pi - t1[1])
-
 		eq1=Eq(r[2]*cos(t1[0]+degtrad(45))*sin(pi-t[0])*fcb+r[2]*sin(t1[0]+degtrad(45))*cos(pi-t[0])*fcb,r1[0]*cos(t1[0])*fdej+r1[0]*sin(t1[0])*fdei)
-
-		# print radtdeg(t[2])
-		# print radtdeg(t1[0])
-		# print radtdeg(pi-t[0])
-		# print radtdeg(pi-t1[1])
-		print
 		a, b = solve_linear(eq1)
-		# print b
 		fcb=b
-		print fcb
-		# print b
-		# print fde
-		# print fcb
-		master7.append(fcb)
-		master8.append(t1[0])
-		# print Eq(r1[3]*(t1[3]-degtrad(90))*w,w*r1[0]*(t1[0]+degtrad(90)))
+		if fcb>0:
+			master9.append(fcb)
+			master10.append(t1[0])
 		x+=.1
 
-	# plt.figure(1)
-	# plt.plot(master9,master10)
-	# plt.figure(2)
-	# plt.plot(master3,master4)
-	# plt.figure(3)
-	# plt.plot(master5,master6)
-	# plt.figure(4)
-	# plt.plot(master8,master7)
-	# plt.show()
+	plt.figure(1)
+	plt.plot(master1, master2)
+	plt.title('Position analysis of B')
+	plt.xlabel('point B i')
+	plt.ylabel('Point B j')
+	plt.figure(2)
+	plt.plot(master3, master4)
+	plt.title('Position analysis of D')
+	plt.xlabel('point D i')
+	plt.ylabel('Point D j')
+	plt.figure(3)
+	plt.plot(master5, master6)
+	plt.title('Position analysis of E')
+	plt.xlabel('point E i')
+	plt.ylabel('Point E j')
+	plt.figure(4)
+	plt.plot(master7,master8)
+	plt.title('Force analysis of F')
+	plt.xlabel('Bar Fde')
+	plt.ylabel('Bar Ffe')
+	plt.figure(5)
+	plt.plot(master10,master9)
+	plt.title('Force analysis of piston')
+	plt.xlabel('Theta')
+	plt.ylabel('Bar Fcb')
+	plt.show()
 
 
 q6(14,4,4.5,3.2,7.75)
